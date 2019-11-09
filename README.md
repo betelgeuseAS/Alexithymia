@@ -1,5 +1,6 @@
 # Alexithymia
 Chrome Extension.
+Helps find out a new words.
 
 ---
 
