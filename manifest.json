@@ -1,0 +1,55 @@
+{
+  "name": "Alexithymia",
+  "description" : "Helps find out a new words",
+  "version": "1.0",
+  "manifest_version": 2,
+  "permissions": [
+    "activeTab",
+    "declarativeContent",
+    "storage"
+  ],
+
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      //"css": ["styles.css"],
+      "js": ["content.js"]
+    }
+  ],
+
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "img/icon/brain16.png",
+      "32": "img/icon/brain32.png",
+      "64": "img/icon/brain64.png",
+      "128": "img/icon/brain128.png",
+      "256": "img/icon/brain256.png",
+      "512": "img/icon/brain512.png"
+    }
+  },
+
+  "icons": {
+    "16": "img/icon/brain16.png",
+    "32": "img/icon/brain32.png",
+    "64": "img/icon/brain64.png",
+    "128": "img/icon/brain128.png",
+    "256": "img/icon/brain256.png",
+    "512": "img/icon/brain512.png"
+  },
+
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+F",
+        "mac": "MacCtrl+Shift+F"
+      },
+      "description": "Opens index.html"
+    }
+  }
+}
