@@ -8,7 +8,6 @@
 //
 // changeColor.onclick = function(element) {
 //   let color = element.target.value;
-//   debugger;
 //   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 //     chrome.tabs.executeScript(
 //       tabs[0].id,
@@ -16,39 +15,32 @@
 //   });
 // };
 
+const field = document.querySelector('.field');
+const events = ['focus', 'blur', 'keydown'];
+for(let i = 0; i < events.length; i++) {
+  (function() {
+    let item = events[i];
+    field['on' + item] = function(e) {
+      switch (item) {
+        case 'focus':
+          document.body.classList.add("is-focus");
+          break;
 
-const listen = (selector = '', event = '', listener = () => {}, useCapture = false) => {
-  document.querySelector(selector)
-    .addEventListener(event, listener, useCapture);
-};
+        case 'blur':
+          document.body.classList.remove('is-focus', 'is-type');
+          break;
 
-listen('.field', 'focus', () => {
-  document.body.classList.add("is-focus");
-});
+        case 'keydown':
+            document.body.classList.add('is-type');
+            if ((e.which === 8) && this.value === '') {
+              document.body.classList.remove('is-type');
+            }
 
-listen('.field', 'blur', () => {
-  document.body.classList.remove('is-focus', 'is-type');
-});
+          break;
 
-listen('.field', 'keydown', (e) => {
-  document.body.classList.add('is-type');
-  if ((e.which === 8) && this.value === '') {
-    document.body.classList.remove('is-type');
-  }
-});
-
-// var obj = document.querySelector('body');
-// var items = ['keydown', 'mouseup'];
-// for(var i = 0; i < items.length; i++) {
-//   (function() {
-//     var item = items[i];
-//     obj['on' + item] = function() {
-//       console.log('Thanks for your ' + item);
-//       // if(item == 'click') {
-//       // 	console.log('click');
-//       // } else if(item == 'mouseover') {
-//       // 	console.log('mouseover');
-//       // }
-//     };
-//   })();
-// }
+        default:
+          break;
+      }
+    };
+  })();
+}
