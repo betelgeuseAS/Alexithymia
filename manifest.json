@@ -10,20 +10,20 @@
   ],
 
   "background": {
-    "scripts": ["background.js"],
+    "scripts": ["background/background.js"],
     "persistent": false
   },
 
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
-      "css": ["content.css"],
-      "js": ["content.js"]
+      "css": ["content/content.css"],
+      "js": ["content/content.js"]
     }
   ],
 
   "browser_action": {
-    "default_popup": "popup.html",
+    "default_popup": "popup/popup.html",
     "default_icon": {
       "16": "img/icon/brain16.png",
       "32": "img/icon/brain32.png",
@@ -49,7 +49,7 @@
         "default": "Ctrl+Shift+L",
         "mac": "MacCtrl+Shift+L"
       },
-      "description": "Opens index.html"
+      "description": "Opens popup"
     }
   }
 }
