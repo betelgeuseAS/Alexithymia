@@ -17,7 +17,7 @@
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
-      //"css": ["styles.css"],
+      "css": ["content.css"],
       "js": ["content.js"]
     }
   ],
@@ -46,8 +46,8 @@
   "commands": {
     "_execute_browser_action": {
       "suggested_key": {
-        "default": "Ctrl+Shift+F",
-        "mac": "MacCtrl+Shift+F"
+        "default": "Ctrl+Shift+L",
+        "mac": "MacCtrl+Shift+L"
       },
       "description": "Opens index.html"
     }
