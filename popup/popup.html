@@ -25,13 +25,9 @@
 <body>
 <!--  <button id="changeColor"></button>-->
 
-  <div class="title-container">
-    <h1 class="title">It's all about context.</h1>
-    <h1 class="title-down">Ajax'ing something...</h1>
-  </div>
-
   <fieldset class="field-container">
     <input type="text" placeholder="Search..." class="field" />
+
     <div class="icons-container">
       <div class="icon-search"></div>
       <div class="icon-close">
@@ -39,7 +35,27 @@
         <div class="x-down"></div>
       </div>
     </div>
+
+    <div class="select-container">
+      <select>
+        <option selected>EN</option>
+        <option>RU</option>
+        <option>UA</option>
+      </select>
+    </div>
   </fieldset>
+
+  <div class="result-container"><!-- is-error -->
+    <div class="no-result">
+      <h1>No Result</h1>
+    </div>
+
+    <ul class="result-list">
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+    </ul>
+  </div>
 
   <script src="../helper/helper.js"></script>
   <script src="popup.js"></script>

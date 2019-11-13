@@ -1,39 +1,25 @@
-@-webkit-keyframes spin {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
+/*------------------------------------------------------*/
+/*Common*/
+* {
+  outline:none;
 }
-@keyframes spin {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
+
+body {
+  font-family: 'Montserrat', 'Helevtica', sans-serif;
+  position: relative;
+  width: 500px;
+  /*height: 500px;*/
+  margin: 10px;
+  background-color: #f2ecec;
+  color: #4B4848;
+  overflow: hidden;
+  font-size: 16px;
+  transition: background-color 1.25s ease-in-out;
 }
-@-webkit-keyframes color-1 {
-  0% {
-    background-color: #EB73B9;
-  }
-  100% {
-    background-color: #17EAD9;
-  }
+body.is-focus {
+  background-color: #17EAD9;
 }
-@keyframes color-1 {
-  0% {
-    background-color: #EB73B9;
-  }
-  100% {
-    background-color: #17EAD9;
-  }
-}
+
 ::-moz-selection {
   background: #6078EA;
   color: white;
@@ -44,72 +30,14 @@
   color: white;
   text-shadow: none;
 }
-
 ::-webkit-selection {
   background: #6078EA;
   color: white;
   text-shadow: none;
 }
 
-body {
-  font-family: 'Montserrat', 'Helevtica', sans-serif;
-  position: relative;
-  width: 500px;
-  height: 300px;
-  margin: 10px;
-  background-color: #f2ecec;
-  color: #4B4848;
-  overflow: hidden;
-  transition: background-color 1.25s ease-in-out;
-}
-body.is-focus {
-  background-color: #17EAD9;
-}
-
-.title-container {
-  position: absolute;
-  top: 38%;
-  left: 50%;
-  width: 80%;
-  margin: 0 auto;
-  text-align: center;
-  overflow: hidden;
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-}
-.title-container .title {
-  -webkit-transform: translateY(-100%);
-  transform: translateY(-100%);
-  transition: -webkit-transform 0.3s ease;
-  transition: transform 0.3s ease;
-  transition: transform 0.3s ease, -webkit-transform 0.3s ease;
-  transition-delay: 0.25s;
-  margin: 0;
-  color: #6078EA;
-}
-.title-container .title-down {
-  -webkit-transform: translateY(100%);
-  transform: translateY(100%);
-  transition: -webkit-transform 0.3s ease;
-  transition: transform 0.3s ease;
-  transition: transform 0.3s ease, -webkit-transform 0.3s ease;
-  transition-delay: 0.25s;
-  margin: 0;
-  color: #6078EA;
-}
-.is-focus .title-container .title {
-  -webkit-transform: translateY(0);
-  transform: translateY(0);
-}
-.is-type .title-container .title-down {
-  -webkit-transform: translateY(-30px);
-  transform: translateY(-30px);
-}
-.is-type .title-container .title {
-  -webkit-transform: translateY(-100%);
-  transform: translateY(-100%);
-}
-
+/*------------------------------------------------------*/
+/*Search field*/
 .field-container {
   position: relative;
   padding: 0;
@@ -127,7 +55,6 @@ body.is-focus {
   height: 35px;
   overflow: hidden;
 }
-
 .icon-close {
   position: absolute;
   top: 2px;
@@ -237,7 +164,6 @@ body.is-focus {
   -webkit-animation-delay: 0.1s;
   animation-delay: 0.1s;
 }
-
 .icon-search {
   position: relative;
   top: 5px;
@@ -270,7 +196,8 @@ body.is-focus {
   height: 100%;
   padding: 10px 20px;
   background: white;
-  border-radius: 3px;
+  border-radius: 5px;
+  font-size: 1.2em;
   box-shadow: 0px 8px 15px rgba(75, 72, 72, 0.1);
   transition: all 0.4s ease;
 }
@@ -287,4 +214,63 @@ body.is-focus {
   opacity: 0;
   -webkit-transform: translateX(200%);
   transform: translateX(200%);
+}
+
+.select-container {
+  position: absolute;
+  top: 16px;
+  right: 10px;
+}
+.select-container select {
+  font-size: 1.3em;
+  color: #6078EA;
+  border: 0;
+}
+
+/*------------------------------------------------------*/
+/*Result container*/
+.result-container {
+  background: #ccc;
+  margin-top: 30px;
+  border-radius: 5px;
+  /*min-height: 400px;*/
+}
+
+/*------------------------------------------------------*/
+/*Animation*/
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes color-1 {
+  0% {
+    background-color: #EB73B9;
+  }
+  100% {
+    background-color: #17EAD9;
+  }
+}
+@keyframes color-1 {
+  0% {
+    background-color: #EB73B9;
+  }
+  100% {
+    background-color: #17EAD9;
+  }
 }
