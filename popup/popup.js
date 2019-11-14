@@ -16,6 +16,9 @@
 // };
 
 const field = document.querySelector('.field');
+const selectField = document.querySelector('.select-field');
+
+
 const events = ['focus', 'blur', 'keydown'];
 for(let i = 0; i < events.length; i++) {
   (function() {
@@ -44,9 +47,20 @@ for(let i = 0; i < events.length; i++) {
   })();
 }
 
+
+let language = 'en';
+document.body.onload = () => {
+  selectField.value = browserLanguage();
+  language = browserLanguage();
+};
+selectField.addEventListener('change', (e) => {
+  language = e.target.value;
+});
+
+
 listen('.field', 'keypress', debounce(function(e) {
-  //TODO set search language
-  let url = "https://en.wikipedia.org/w/api.php";
+  //"https://en.wikipedia.org/w/api.php";
+  let url = `https://${language}.wikipedia.org/w/api.php`;
 
   let params = {
     action: "opensearch",
@@ -68,12 +82,9 @@ listen('.field', 'keypress', debounce(function(e) {
   fetch(url)
     .then(function(response){return response.json();})
     .then(function(response) {
-      document.body.classList.remove('is-type');
       //response?.query?.search[0];
-      let titles = response[1];
-      let description = response[2];
-      let links = response[3];
       console.log(response);
+      document.body.classList.remove('is-type', is);
     })
     .catch(function(error){console.log(error);});
 }, 2000));

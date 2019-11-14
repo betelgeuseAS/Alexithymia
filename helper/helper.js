@@ -19,5 +19,5 @@ const debounce = (fn, time) => {
 //Set browser language
 const browserLanguage = () => {
   let userLang = navigator.language || navigator.userLanguage;
-  return userLang.slice(0, 2);
+  return userLang ? userLang.slice(0, 2) : 'en';
 };

@@ -10,14 +10,12 @@ body {
   width: 500px;
   /*height: 500px;*/
   margin: 10px;
-  background-color: #f2ecec;
+  /*background-color: #f2ecec;*/
   color: #4B4848;
   overflow: hidden;
   font-size: 16px;
-  transition: background-color 1.25s ease-in-out;
-}
-body.is-focus {
   background-color: #17EAD9;
+  transition: background-color 1.25s ease-in-out;
 }
 
 ::-moz-selection {
@@ -223,17 +221,38 @@ body.is-focus {
 }
 .select-container select {
   font-size: 1.3em;
-  color: #6078EA;
+  color: #17EAD9;
   border: 0;
 }
 
 /*------------------------------------------------------*/
 /*Result container*/
 .result-container {
-  background: #ccc;
+  background: white;
   margin-top: 30px;
   border-radius: 5px;
   /*min-height: 400px;*/
+  padding: 5px 20px;
+}
+.result-container .result-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.result-list .title {
+  color: #17EAD9;
+  line-height: 0;
+}
+.result-list .definition {
+  font-size: .8em;
+  margin-bottom: 2px;
+}
+.result-list .link {
+  text-align: right;
+}
+.result-list .link a {
+  font-size: .8em;
+  text-decoration: none;
 }
 
 /*------------------------------------------------------*/

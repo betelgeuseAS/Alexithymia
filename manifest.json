@@ -6,8 +6,7 @@
   "permissions": [
     "activeTab",
     "declarativeContent",
-    "storage",
-    "https://en.wikipedia.org/w/api.php"
+    "storage"
   ],
 
   "background": {
