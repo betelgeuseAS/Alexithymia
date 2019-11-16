@@ -25,38 +25,124 @@
 <body>
 <!--  <button id="changeColor"></button>-->
 
-  <fieldset class="field-container">
-    <input type="text" placeholder="Search..." class="field" />
+<!--  <fieldset class="field-container">-->
+<!--    <input type="text" placeholder="Search..." class="field" />-->
 
-    <div class="icons-container">
-      <div class="icon-search"></div>
-      <div class="icon-close">
-        <div class="x-up"></div>
-        <div class="x-down"></div>
+<!--    <div class="icons-container">-->
+<!--      <div class="icon-search"></div>-->
+<!--      <div class="icon-close">-->
+<!--        <div class="x-up"></div>-->
+<!--        <div class="x-down"></div>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    <div class="select-container">-->
+<!--      <select class="select-field">-->
+<!--        <option value="en">EN</option>-->
+<!--        <option value="ru">RU</option>-->
+<!--        <option value="uk">UA</option>-->
+<!--      </select>-->
+<!--    </div>-->
+<!--  </fieldset>-->
+
+<!--  <div class="result-container">-->
+<!--    <ul class="result-list">-->
+<!--      <li>-->
+<!--        <h3 class="title">Title</h3>-->
+<!--        <p class="definition">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti deserunt earum facere harum iste laborum minus molestias numquam pariatur vel.</p>-->
+<!--        <div class="link">-->
+<!--          <a href="#" class="link" target="_blank">Go to article</a>-->
+<!--        </div>-->
+<!--      </li>-->
+<!--    </ul>-->
+<!--  </div>-->
+
+
+  <div class="app" data-state="Good">
+    <div class="device" data-view="list">
+      <ul class="layer" data-layer="list">
+        <li class="content">
+          <div class="bg"></div>
+          <div class="avatar"></div>
+          <div class="title">Some list item</div>
+          <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+        </li>
+        <li class="content">
+          <div class="bg"></div>
+          <div class="avatar"></div>
+          <div class="title">Some list item</div>
+          <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+        </li>
+        <li class="content clickable" id="article-1">
+          <div class="bg" data-flip-key="bg-1"></div>
+          <div class="avatar" data-flip-key="avatar-1"></div>
+          <div class="title" data-flip-key="title-1">@keyframers</div>
+          <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+        </li>
+        <li class="content">
+          <div class="bg"></div>
+          <div class="avatar"></div>
+          <div class="title">Some list item</div>
+          <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+        </li>
+      </ul>
+
+      <div class="layer article" data-layer="article">
+        <button class="exit">𝖃</button>
+        <div class="avatar" data-flip-key="avatar-1" id="back"></div>
+        <div class="content">
+          <div class="bg" data-flip-key="bg-1"></div>
+          <h1 data-flip-key="title-1">@keyframers</h1>
+          <div class="title">This is some article</div>
+          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolores odio iste, deserunt incidunt obcaecati explicabo fugit facere debitis repellat harum reprehenderit, nesciunt doloremque id aperiam minima sapiente similique amet tempora?</p>
+        </div>
       </div>
     </div>
-
-    <div class="select-container">
-      <select class="select-field">
-        <option value="en">EN</option>
-        <option value="ru">RU</option>
-        <option value="uk">UA</option>
-      </select>
-    </div>
-  </fieldset>
-
-  <div class="result-container">
-    <ul class="result-list">
-      <li>
-        <h3 class="title">Title</h3>
-        <p class="definition">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti deserunt earum facere harum iste laborum minus molestias numquam pariatur vel.</p>
-        <div class="link">
-          <a href="#" class="link" target="_blank">Go to article</a>
-        </div>
-      </li>
-    </ul>
   </div>
 
+  <div class="app" data-state="Bad">
+    <div class="device" data-view="list">
+      <ul class="layer" data-layer="list">
+        <li class="content">
+          <div class="bg"></div>
+          <div class="avatar"></div>
+          <div class="title">Some list item</div>
+          <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+        </li>
+        <li class="content">
+          <div class="bg"></div>
+          <div class="avatar"></div>
+          <div class="title">Some list item</div>
+          <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+        </li>
+        <li class="content clickable" id="article-2">
+          <div class="bg" data-flip-key="bg-2"></div>
+          <div class="avatar" data-flip-key="avatar-2"></div>
+          <div class="title" data-flip-key="title-2">@keyframers</div>
+          <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+        </li>
+        <li class="content">
+          <div class="bg"></div>
+          <div class="avatar"></div>
+          <div class="title">Some list item</div>
+          <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+        </li>
+      </ul>
+
+      <div class="layer article" data-layer="article">
+        <button class="exit">𝖃</button>
+        <div class="avatar" data-flip-key="avatar-2" id="back"></div>
+        <div class="content">
+          <div class="bg" data-flip-key="bg-2"></div>
+          <h1 data-flip-key="title-2">@keyframers</h1>
+          <div class="title">This is some article</div>
+          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolores odio iste, deserunt incidunt obcaecati explicabo fugit facere debitis repellat harum reprehenderit, nesciunt doloremque id aperiam minima sapiente similique amet tempora?</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../helper/libs/flipping.web.js"></script>
   <script src="../helper/helper.js"></script>
   <script src="popup.js"></script>
 </body>
