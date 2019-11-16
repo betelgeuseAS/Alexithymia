@@ -1,4 +1,25 @@
 /*------------------------------------------------------*/
+/*Variables*/
+:root {
+  /*Colors*/
+  --color-primary: #007BFF;
+  --color-secondary: #6C757D;
+  --color-success: #28A745;
+  --color-danger: #DC3545;
+  --color-warning: #FFC107;
+  --color-info: #17A2B8;
+  --color-light: #F8F9FA;
+  --color-dark: #343A40;
+
+  /*Fonts*/
+  --font-accent: 'Montserrat', 'Helevtica', sans-serif;
+
+  /*Numbers*/
+  --animation-duration: 1000ms;
+  --animation-delay: 400ms;
+}
+/*color: var(--text-color);*/
+/*------------------------------------------------------*/
 /*Common*/
 * {
   outline:none;
@@ -7,11 +28,11 @@
 body {
   font-size: 16px;
   line-height: 1.65;
-  font-family: 'Montserrat', 'Helevtica', sans-serif;
+  font-family: var(--font-accent);
   display: flex;
   justify-content: center;
   align-items: center;
-  color: black;
+  color: var(--color-dark);
 }
 body, html {
   /*height: 100%;*/
