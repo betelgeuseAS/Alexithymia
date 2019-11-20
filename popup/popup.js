@@ -102,64 +102,22 @@ const selectField = document.querySelector('.select-field');
 
 
 
-
-console.clear();
-
-const elDevices = document.querySelectorAll('.device');
-
-const machine = {
-  initial: 'list',
-  states: {
-    list: {
-      on: {
-        ARTICLE: 'article'
-      }
-    },
-    article: {
-      on: {
-        BACK: 'list'
-      }
-    }
-  }
-};
-
-let currentState = elDevices[0].dataset.view;
-
-function readCssVar(element, varName){
-  const elementStyles = getComputedStyle(element);
-  return elementStyles.getPropertyValue('--'+varName).trim();
-}
-
-const flipping = new Flipping({
-  duration: +readCssVar(elDevices[0], 'duration').replace(/(s|ms)/,'') || 300,
-  activeSelector: el => {
-    return el.matches(`[data-layer="${elDevices[0].dataset.view}"] *`);
-  }
-});
-
-function send(event) {
-  const nextState = machine.states[currentState].on[event];
-
-  flipping.read();
-  currentState = nextState;
-  [...elDevices].forEach( d => {
-    d.dataset.view = nextState;
-  });
-  flipping.flip();
-}
-
-const elArticles = [...document.querySelectorAll('.clickable')];
-const elBackos = [...document.querySelectorAll('.exit')];
-
-elArticles.forEach( el => {
-  el.addEventListener('click', () => {
-    send('ARTICLE');
+// $('.screenRap div span').click(function() {
+//   $(this).parent().addClass('active');
+// });
+let item = document.querySelectorAll('.screenRap div span');
+item.forEach(item => {
+  item.addEventListener('click', function () { //need to save this
+    this.parentElement.classList.add('active');
   });
 });
 
-
-elBackos.forEach( el => {
-  el.addEventListener('click', () => {
-    send('BACK');
+// $('.screenRap div a').click(function() {
+//   $(this).parent().parent().removeClass('active');
+// });
+let close = document.querySelectorAll('.screenRap div a');
+close.forEach(item => {
+  item.addEventListener('click', function () { //need to save this
+    this.parentElement.parentElement.classList.remove('active');
   });
 });
