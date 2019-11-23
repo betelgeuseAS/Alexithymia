@@ -102,22 +102,4 @@ const selectField = document.querySelector('.select-field');
 
 
 
-// $('.screenRap div span').click(function() {
-//   $(this).parent().addClass('active');
-// });
-let item = document.querySelectorAll('.screenRap div span');
-item.forEach(item => {
-  item.addEventListener('click', function () { //need to save this
-    this.parentElement.classList.add('active');
-  });
-});
 
-// $('.screenRap div a').click(function() {
-//   $(this).parent().parent().removeClass('active');
-// });
-let close = document.querySelectorAll('.screenRap div a');
-close.forEach(item => {
-  item.addEventListener('click', function () { //need to save this
-    this.parentElement.parentElement.classList.remove('active');
-  });
-});
