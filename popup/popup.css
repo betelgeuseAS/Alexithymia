@@ -2,7 +2,7 @@
 /* Variables */
 /*------------------------------------------------------*/
 :root {
-  /*Colors*/
+  /* Colors */
   --color-primary: #007BFF;
   --color-secondary: #6C757D;
   --color-success: #28A745;
@@ -12,12 +12,20 @@
   --color-light: #F8F9FA;
   --color-dark: #343A40;
 
-  /*Fonts*/
+  /* Fonts */
   --font-accent: 'Montserrat', 'Helevtica', sans-serif;
 
-  /*Numbers*/
+  /* Numbers */
   --animation-duration: 1000ms;
   --animation-delay: 400ms;
+
+  /* Size */
+  --border-radius: 20px;
+
+  /* svg*/
+  --primary: #4e29f0;
+  --primary-light: #725afc;
+  --secondary: #ffd100;
 }
 
 /*------------------------------------------------------*/
@@ -72,25 +80,19 @@ textarea:required:valid {
 /* Tab Buttons */
 /*------------------------------------------------------*/
 .tabs {
-  --background: #ffffff;
-  --grey: #c9cbd5;
-  --primary: #4e29f0;
-  --primary-light: #725afc;
-  --secondary: #ffd100;
-  --width: 500px;
-  --height: 50px;
-  --border-radius: var(--height);
-  background: var(--background);
-  width: var(--width);
-  height: var(--height);
+  background: var(--color-light);
+  width: 500px;
+  height: 50px;
   position: relative;
-  border-radius: var(--border-radius);
+  border-bottom-left-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
   box-shadow: 0 10px 30px rgba(65, 72, 86, 0.05);
   display: flex;
   justify-content: space-around;
   align-items: center;
   overflow: hidden;
   padding: 0 15px;
+  margin-bottom: 10px;
   box-sizing: border-box;
 }
 
@@ -123,7 +125,7 @@ textarea:required:valid {
   z-index: 2;
 }
 .tabs label svg .icon {
-  fill: var(--grey);
+  fill: #c9cbd5;
 }
 .tabs label svg .icon-border {
   fill: #ffffff;
@@ -190,13 +192,48 @@ textarea:required:valid {
 }
 
 /*------------------------------------------------------*/
-/*Tab Content*/
+/* Tab Content */
 /*------------------------------------------------------*/
-.content .content-item {
-  display: none
+.content {
+  background: var(--color-light);
+  height: 540px; /* (mainHeight = 600px) - (tabHeader = 50px) - (marginBottomTabHeader = 10px) = 540px */
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+  box-shadow: 0 10px 30px rgba(65, 72, 86, 0.05);
 }
 
+.content .content-item {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  opacity: 0;
+  transform: translateY(-100%);
+  transition: all 0.6s ease;
+  height: 500px;
+  overflow: auto;
+  padding: 20px;
+}
 .content .content-item.content-active {
-  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/*------------------------------------------------------*/
+/* Scroll */
+/*------------------------------------------------------*/
+::-webkit-scrollbar-track {
+  background-color: var(--color-light);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  background-color: var(--color-light);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-dark);
+  border-radius: 10px;
 }
 /*------------------------------------------------------*/
