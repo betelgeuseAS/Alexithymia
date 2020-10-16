@@ -211,10 +211,50 @@ textarea:required:valid {
   height: 440px;
   overflow: auto;
   padding: 20px;
+  width: 92%;
 }
 .content .content-item.content-active {
   opacity: 1;
   transform: translateY(0);
+}
+
+.content-item .content-data,
+.content-item .content-data .actions {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.content-item .content-data .actions li {
+  display: inline-block;
+}
+.content-item .content-data p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.content-item .content-data .content-data-item {
+  background: #d4edf4;
+  border-radius: var(--border-radius);
+  padding: 10px 15px 10px 15px;
+}
+
+.content-data .content-data-item .actions {
+  float: right;
+}
+.content-data .content-data-item .text-content {
+  font-size: .8em;
+}
+.content-data .content-data-item .actions li {
+  margin-left: 5px;
+}
+.content-data .content-data-item .actions li img {
+  width: 20px;
+  cursor: pointer;
+}
+.content-data .content-data-item .actions li:hover img {
+  opacity: .6;
+  transform: scale(1.1);
+  transition: all .5s;
 }
 
 /*------------------------------------------------------*/

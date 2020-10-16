@@ -63,6 +63,20 @@ document.addEventListener('DOMContentLoaded', () => {
   let tabs = new TabsManager(document.querySelector('nav.nav-header'));
 });
 
+// Animated element removal
+function cuteHide(element) {
+  element.animate({opacity: '0'}, 150, function(){
+    element.animate({height: '0px'}, 150, function(){
+      element.remove();
+    });
+  });
+}
+
+$('.content-data-item .delete-content-data-item').on('click', function(){
+  const element = $(this).closest('.content .content-data .content-data-item');
+  cuteHide(element);
+});
+
 // Notes
 // let changeColor = document.getElementById('changeColor');
 // chrome.storage.sync.get('color', function(data) {
