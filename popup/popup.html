@@ -14,133 +14,225 @@
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 
   <!-- Include CSS -->
+  <link rel="stylesheet" href="../helper/libs/jQueryUI-1.12.1/jquery-ui.min.css">
+  <!--<link rel="stylesheet" href="../helper/libs/bootstrap-4.5.3/css/bootstrap.min.css">-->
+  <link rel="stylesheet" href="../helper/libs/bootswatch-sketchy/bootstrap.min.css">
+  <link rel="stylesheet" href="../helper/libs/bootstrap-tokenfield-0.12.1/css/bootstrap-tokenfield.min.css">
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
 
   <!-- Tabs -->
-  <nav class="nav-header">
-    <!-- Tab Buttons -->
-    <div class="tabs">
-      <input type="radio" name="tab" id="tab-01" class="tab-item" checked />
-      <label for="tab-01">
-        <svg>
-          <use xlink:href="#icon-01" class="icon" />
-          <use xlink:href="#icon-01" class="icon-border" />
-          <use xlink:href="#icon-01-fill" class="icon-fill" />
-        </svg>
-      </label>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col">
+        <ul class="nav nav-tabs mt-1">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#content">Content</a>
+          </li>
 
-      <input type="radio" name="tab" id="tab-02" class="tab-item" />
-      <label for="tab-02">
-        <svg>
-          <use xlink:href="#icon-02" class="icon" />
-          <use xlink:href="#icon-02" class="icon-border" />
-          <use xlink:href="#icon-02-fill" class="icon-fill" />
-        </svg>
-      </label>
-
-      <input type="radio" name="tab" id="tab-03" class="tab-item" />
-      <label for="tab-03">
-        <svg>
-          <use xlink:href="#icon-03" class="icon" />
-          <use xlink:href="#icon-03" class="icon-border" />
-          <use xlink:href="#icon-03-fill" class="icon-fill" />
-        </svg>
-      </label>
-
-      <input type="radio" name="tab" id="tab-04" class="tab-item" />
-      <label for="tab-04">
-        <svg>
-          <use xlink:href="#icon-04" class="icon" />
-          <use xlink:href="#icon-04" class="icon-border" />
-          <use xlink:href="#icon-04-fill" class="icon-fill" />
-        </svg>
-      </label>
-    </div>
-
-    <!-- Tab Contents -->
-    <div class="content">
-      <div class="content-item">
-        <ul class="content-data">
-          <li class="content-data-item">
-            <ul class="actions">
-              <li class="delete-content-data-item" title="Delete"><img src="../img/popup/trash.svg" alt="Delete Content Item" /></li>
-              <li class="copy-content-data-item" title="Copy"><img src="../img/popup/copy.svg" alt="Copy Content Item" /></li>
-            </ul>
-            <p class="text-content">But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?</p>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#settings">Settings</a>
           </li>
         </ul>
-      </div>
 
-      <div class="content-item">
-        <ul class="content-data">
-          2
-        </ul>
-      </div>
+        <div id="tabContent" class="tab-content pt-3">
+          <div class="tab-pane fade show active" id="content">
+            <div class="d-flex flex-row justify-content-start align-items-start search-action mb-3">
+              <div class="form-group flex-grow-1 mr-1">
+                <!--<label class="col-form-label" for="searchInput">Search</label>-->
+                <input type="text" class="form-control" placeholder="Search..." id="searchInput">
+              </div>
 
-      <div class="content-item">
-        <ul class="content-data">
-          3
-        </ul>
-      </div>
+              <div class="form-group mr-3">
+                <!--<label for="searchFilter">Type</label>-->
+                <select class="form-control" id="searchFilter">
+                  <option value="all">All</option>
+                  <option value="title">Title</option>
+                  <option value="tags">Tags</option>
+                </select>
+              </div>
 
-      <div class="content-item">
-        <ul class="content-data">
-          4
-        </ul>
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Actions
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="#" data-toggle="modal" data-target="#addItemModal">Add Item</a>
+                  <!--<a class="dropdown-item" href="#">Action</a>-->
+                </div>
+              </div>
+            </div>
+
+            <ul class="list-group mb-3">
+              <li class="list-group-item">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="w-50 data">
+                    <div class="data-title">One</div>
+                    <div class="data-tags">[ <span class="text-muted">tag1, tag2</span> ]</div>
+                  </div>
+
+                  <div>
+                    <button type="button" class="btn btn-outline-info btn-sm">Copy</button>
+                    <button type="button" class="btn btn-outline-warning btn-sm">Edit</button>
+                    <button type="button" class="btn btn-outline-danger delete-action btn-sm">Delete</button>
+                  </div>
+                </div>
+              </li>
+
+              <li class="list-group-item">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="w-50 data">
+                    <div class="data-title">Two</div>
+                    <div class="data-tags">[ <span class="text-muted">tag1, tag3</span> ]</div>
+                  </div>
+
+                  <div>
+                    <button type="button" class="btn btn-outline-info btn-sm">Copy</button>
+                    <button type="button" class="btn btn-outline-warning btn-sm">Edit</button>
+                    <button type="button" class="btn btn-outline-danger delete-action btn-sm">Delete</button>
+                  </div>
+                </div>
+              </li>
+
+              <li class="list-group-item">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="w-50 data">
+                    <div class="data-title">Three</div>
+                    <div class="data-tags">[ <span class="text-muted">tag5</span> ]</div>
+                  </div>
+
+                  <div>
+                    <button type="button" class="btn btn-outline-info btn-sm">Copy</button>
+                    <button type="button" class="btn btn-outline-warning btn-sm">Edit</button>
+                    <button type="button" class="btn btn-outline-danger delete-action btn-sm">Delete</button>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="tab-pane fade" id="settings">
+            <div class="jumbotron">
+              <h1 class="display-3">Tags</h1>
+              <p class="lead">This is used when creating and searching records.</p>
+              <hr class="my-4">
+              <p>To add new tag - type something and hit enter</p>
+
+              <form action="">
+                <div class="form-group">
+                  <!--<label class="col-form-label" for="inputSettingsTags">Tags</label>-->
+                  <input type="text" class="form-control" id="inputSettingsTags" value="" />
+                </div>
+
+                <div class="text-right">
+                  <button type="submit" class="btn btn-outline-success save-settings-tags mt-3">Save</button>
+                </div>
+              </form>
+            </div>
+
+            <div class="jumbotron">
+              <h1 class="display-3">Controls</h1>
+              <p class="lead">Actions on records.</p>
+              <hr class="my-4">
+
+              <div>
+                <button type="button" class="btn btn-outline-secondary" data-toggle="tooltip" data-placement="top" data-original-title="Export all records into CSV file">Export CSV</button>
+                <button type="button" class="btn btn-outline-danger" data-toggle="tooltip" data-placement="top" data-original-title="Delete all records">Delete All</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </nav>
+  </div>
 
-  <!-- SVG -->
-  <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-    <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" id="icon-01">
-      <path d="M25.81,11.94,24.75,3a3.3,3.3,0,0,0-3.18-3H4.43A3.3,3.3,0,0,0,1.25,3L.19,11.94A7.8,7.8,0,0,0,0,13.68v9.25A3,3,0,0,0,2.85,26H11V19a2,2,0,0,1,4,0v7h8.15A3,3,0,0,0,26,22.93V13.68A7.8,7.8,0,0,0,25.81,11.94Z"/>
-    </symbol>
-    <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" id="icon-01-fill">
-      <path fill="var(--primary)" d="M25.81,11.94,24.75,3a3.3,3.3,0,0,0-3.18-3H21A19.48,19.48,0,0,1,1.5,19C1,19,.5,19,0,18.92v4A3,3,0,0,0,2.85,26H11V19a2,2,0,0,1,4,0v7h8.15A3,3,0,0,0,26,22.93V13.68A7.8,7.8,0,0,0,25.81,11.94Z"/>
-      <path fill="var(--secondary)" d="M13,19h0a2,2,0,0,1,2,2v5a0,0,0,0,1,0,0H11a0,0,0,0,1,0,0V21A2,2,0,0,1,13,19Z"/>
-      <path fill="var(--primary-light)" d="M1.5,19A19.48,19.48,0,0,0,21,0H4.43A3.3,3.3,0,0,0,1.25,3L.19,11.94A7.8,7.8,0,0,0,0,13.68v5.24C.5,19,1,19,1.5,19Z"/>
-    </symbol>
-    <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" id="icon-02">
-      <path d="M13,0A13,13,0,0,0,3.14,21.45a2.67,2.67,0,0,0-.72,1.83A2.71,2.71,0,0,0,4.85,26v0H13A13,13,0,0,0,13,0ZM8,8h4a2,2,0,0,1,0,4H8A2,2,0,0,1,8,8Zm9,11H8a2,2,0,0,1,0-4h9a2,2,0,0,1,0,4Zm0-7a2,2,0,1,1,2-2A2,2,0,0,1,17,12Z"/>
-    </symbol>
-    <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" id="icon-02-fill">
-      <rect fill="var(--secondary)" x="6" y="15" width="13" height="4" rx="2"/>
-      <path fill="var(--primary)" d="M20.74,2.57a19.45,19.45,0,0,1-2.12,6.27A2,2,0,0,1,19,10a2,2,0,0,1-2,2,1.85,1.85,0,0,1-.48-.07A19.49,19.49,0,0,1,13.3,15H17a2,2,0,0,1,0,4H8a1.94,1.94,0,0,1-1.48-.68,19.37,19.37,0,0,1-5,.68h0a12.87,12.87,0,0,0,1.66,2.45,2.67,2.67,0,0,0-.72,1.83A2.71,2.71,0,0,0,4.85,26v0H13A13,13,0,0,0,20.74,2.57Z"/>
-      <path fill="var(--primary-light)" d="M13,0A13,13,0,0,0,1.48,19h0a19.37,19.37,0,0,0,5-.68A2,2,0,0,1,6,17a2,2,0,0,1,2-2h5.3a19.49,19.49,0,0,0,3.22-3.07,2,2,0,1,1,2.1-3.09,19.45,19.45,0,0,0,2.12-6.27A12.94,12.94,0,0,0,13,0ZM12,12H8A2,2,0,0,1,8,8h4a2,2,0,0,1,0,4Z"/>
-    </symbol>
-    <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" id="icon-03">
-      <path d="M23.15,0,15,1V9a2,2,0,0,1-4,0V1.1L2.85,0A3,3,0,0,0,0,3.07V22.93A3,3,0,0,0,2.85,26l8.74-1.18a9.08,9.08,0,0,1,2.27,0L23.15,26A3,3,0,0,0,26,22.93V3.07A3,3,0,0,0,23.15,0Z" />
-    </symbol>
-    <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" id="icon-03-fill">
-      <path fill="var(--secondary)" d="M13.86,1.19a9.08,9.08,0,0,1-2.27,0L11,1.1V7a2,2,0,0,0,4,0V1Z"/>
-      <path fill="var(--primary)" d="M23.15,0,21,.28A19.48,19.48,0,0,1,1.5,19C1,19,.5,19,0,18.92v4A3,3,0,0,0,2.85,26l8.74-1.18a9.08,9.08,0,0,1,2.27,0L23.15,26A3,3,0,0,0,26,22.93V3.07A3,3,0,0,0,23.15,0Z"/>
-      <path fill="var(--primary-light)" d="M1.5,19A19.48,19.48,0,0,0,21,.28L15,1V9a2,2,0,0,1-4,0V1.1L2.85,0A3,3,0,0,0,0,3.07V18.92C.5,19,1,19,1.5,19Z"/>
-    </symbol>
-    <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" id="icon-04">
-      <path d="M26,13A13,13,0,1,0,3.14,21.45a2.67,2.67,0,0,0-.72,1.83A2.7,2.7,0,0,0,4.86,26l0,0H20.56l0,0c.11,0,.22,0,.33,0a2.72,2.72,0,0,0,2.72-2.72,2.67,2.67,0,0,0-.72-1.83A12.93,12.93,0,0,0,26,13ZM11,13a2,2,0,0,1-4,0V12a2,2,0,0,1,4,0Zm8,0a2,2,0,0,1-4,0V12a2,2,0,0,1,4,0Z"/>
-    </symbol>
-    <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" id="icon-04-fill">
-      <rect fill="var(--secondary)" x="7" y="11" width="4" height="4" rx="2"/>
-      <rect fill="var(--secondary)" x="15" y="11" width="4" height="4" rx="2"/>
-      <path fill="var(--primary)" d="M26,13A13,13,0,0,0,20.74,2.57a19.32,19.32,0,0,1-2.93,7.6A2,2,0,0,1,19,12v1a2,2,0,0,1-3.93.49A19.45,19.45,0,0,1,1.5,19h0a12.87,12.87,0,0,0,1.66,2.45,2.67,2.67,0,0,0-.72,1.83A2.7,2.7,0,0,0,4.86,26l0,0H20.56l0,0c.11,0,.22,0,.33,0a2.72,2.72,0,0,0,2.72-2.72,2.67,2.67,0,0,0-.72-1.83A12.93,12.93,0,0,0,26,13Z"/>
-      <path fill="var(--primary-light)" d="M13,0A13,13,0,0,0,1.48,19h0a19.45,19.45,0,0,0,13.57-5.51A2,2,0,0,1,15,13V12a2,2,0,0,1,2.81-1.83,19.32,19.32,0,0,0,2.93-7.6A12.94,12.94,0,0,0,13,0ZM11,13a2,2,0,0,1-4,0V12a2,2,0,0,1,4,0Z"/>
-    </symbol>
-  </svg>
+  <!-- Add Item Modal -->
+  <div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="addItemModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addItemModalLabel">Add New Record</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="">
+            <div class="form-group">
+              <label class="col-form-label" for="inputTitle">Title</label>
+              <input type="text" class="form-control" name="title" placeholder="Title..." id="inputTitle">
+            </div>
 
-  <!-- Footer -->
-  <footer>
-    <ul class="actions">
-      <li class="action-item" title="Delete All"><img src="../img/popup/trash.svg" alt="Delete All"></li>
-      <li class="action-item" title="Export into CSV"><img src="../img/popup/csv-file-format.svg" alt="Export into CSV"></li>
-    </ul>
-  </footer>
+            <div class="form-group">
+              <label for="inputContent">Content</label>
+              <textarea class="form-control" name="content" id="inputContent" rows="5" placeholder="Content..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="col-form-label" for="inputTags">Tags</label>
+              <input type="text" class="form-control" name="tags" id="inputTags" value="" placeholder="Tags..." />
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-outline-success save-action">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toasts -->
+  <div class="toast-wrapper">
+    <!-- Toast Success -->
+    <div class="toast bg-success toast-notify-success" role="alert" aria-live="assertive" aria-atomic="true" data-animation="true" data-autohide="true" data-delay="3000">
+      <div class="toast-header">
+        <strong class="mr-auto">Success</strong>
+        <small>Now</small>
+        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="toast-body">
+        Changes made successfully.
+      </div>
+    </div>
+
+    <!-- Toast Warning -->
+    <div class="toast bg-warning toast-notify-warning" role="alert" aria-live="assertive" aria-atomic="true" data-animation="true" data-autohide="true" data-delay="3000">
+      <div class="toast-header">
+        <strong class="mr-auto">Warning</strong>
+        <small>Now</small>
+        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="toast-body">
+        There was a warning.
+      </div>
+    </div>
+
+    <!-- Toast Error -->
+    <div class="toast bg-danger toast-notify-error" role="alert" aria-live="assertive" aria-atomic="true" data-animation="true" data-autohide="true" data-delay="3000">
+      <div class="toast-header">
+        <strong class="mr-auto">Error</strong>
+        <small>Now</small>
+        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="toast-body">
+        Something went wrong.
+      </div>
+    </div>
+  </div>
 
   <!-- Include JS -->
-  <script src="../helper/libs/flipping.web.js"></script>
-  <script src="../helper/libs/jQuery3.5.1.js"></script>
+  <script src="../helper/libs/jQuery-3.5.1/jQuery.min.js"></script>
+  <script src="../helper/libs/jQueryUI-1.12.1/jquery-ui.min.js"></script>
+  <script src="../helper/libs/bootstrap-4.5.3/js/bootstrap.bundle.min.js"></script>
+  <script src="../helper/libs/bootstrap-tokenfield-0.12.1/js/bootstrap-tokenfield.min.js"></script>
   <script src="../helper/helper.js"></script>
   <script src="popup.js"></script>
 </body>
