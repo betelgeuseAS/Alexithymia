@@ -8,29 +8,56 @@
 
 $(document).ready(() => {
   Init.run();
-
-  // DeleteItem.run(
-  //   $('.list-group .list-group-item .delete-action'),
-  //   $('.list-group .list-group-item')
-  // );
-  //
-  // TypeaheadTags.run(
-  //   $('.tab-pane #inputSettingsTags'),
-  //   $('.tab-pane .save-settings-tags')
-  // );
-  //
-  // Search.run(
-  //   $('.search-action #searchInput'),
-  //   $('.search-action #searchFilter'),
-  //   $('.list-group li.list-group-item')
-  // );
-  //
-  // SaveRecordModal.run(
-  //   $('#addItemModal')
-  // )
 });
 
-// Toast Notifications
+class Init {
+  constructor() {
+    this.init();
+  }
+
+  static run() {
+    new Init();
+  }
+
+  init() {
+    this.initAppWithData();
+    this.initBootstrapComponents();
+  }
+
+  initAppWithData() {
+    chrome.storage.sync.get(['settingsTags', 'records'], (result) => {
+      let dataTags = result.settingsTags,
+          dataRecords = result.records;
+
+      DeleteItem.run(
+        $('.list-group .list-group-item .delete-action'),
+        $('.list-group .list-group-item')
+      );
+
+      TypeaheadTags.run(
+        $('.tab-pane #inputSettingsTags'),
+        $('.tab-pane .save-settings-tags')
+      );
+
+      Search.run(
+        $('.search-action #searchInput'),
+        $('.search-action #searchFilter'),
+        $('.list-group li.list-group-item')
+      );
+
+      SaveRecordModal.run(
+        $('#addItemModal')
+      );
+    });
+  }
+
+  initBootstrapComponents() {
+    $(function() { // Tooltips Bootstrap
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  }
+}
+
 class Toast {
   constructor() {
     this.toastSuccess = $('.toast-notify-success');
@@ -89,50 +116,6 @@ class Toast {
   }
 }
 
-// Init
-class Init {
-  constructor() {
-    this.init();
-  }
-
-  static run() {
-    new Init();
-  }
-
-  init() {
-    $(function() { // Tooltips Bootstrap
-      $('[data-toggle="tooltip"]').tooltip();
-    });
-
-
-    chrome.storage.sync.get(['settingsTags', 'records'], (result) => {
-      let dataTags = result.settingsTags,
-          dataRecords = result.records;
-
-      DeleteItem.run(
-        $('.list-group .list-group-item .delete-action'),
-        $('.list-group .list-group-item')
-      );
-
-      TypeaheadTags.run(
-        $('.tab-pane #inputSettingsTags'),
-        $('.tab-pane .save-settings-tags')
-      );
-
-      Search.run(
-        $('.search-action #searchInput'),
-        $('.search-action #searchFilter'),
-        $('.list-group li.list-group-item')
-      );
-
-      SaveRecordModal.run(
-        $('#addItemModal')
-      );
-    });
-  }
-}
-
-// Animated element removal
 class DeleteItem {
   constructor(deleteButton, deleteElement) {
     this.deleteButton = deleteButton;
@@ -162,7 +145,6 @@ class DeleteItem {
   }
 }
 
-// Typeahead
 class TypeaheadTags extends Toast {
   constructor(inputTags, saveTagsButton) {
     super(inputTags, saveTagsButton);
@@ -209,7 +191,6 @@ class TypeaheadTags extends Toast {
   }
 }
 
-// Search
 class Search {
   constructor(searchInput, searchFilter, listItems) {
     this.searchInput = searchInput;
@@ -267,7 +248,6 @@ class Search {
   }
 }
 
-// Save Modal
 class SaveRecordModal extends Toast {
   constructor(modalElement) {
     super(modalElement);
