@@ -36,7 +36,14 @@ class Init {
 
       TypeaheadTags.run(
         $('.tab-pane #inputSettingsTags'),
-        $('.tab-pane .save-settings-tags')
+        $('.tab-pane .save-settings-tags'),
+        dataTags
+      );
+
+      TypeaheadTags.run(
+        $('#addItemModal #inputTags'),
+        null,
+        dataTags
       );
 
       Search.run(
@@ -52,7 +59,7 @@ class Init {
   }
 
   initBootstrapComponents() {
-    $(function() { // Tooltips Bootstrap
+    $(function() {
       $('[data-toggle="tooltip"]').tooltip();
     });
   }
@@ -98,21 +105,10 @@ class Toast {
   }
 
   events() {
-    this.toasts.on('show.bs.toast', function() {
-      // do something...
-    });
-
-    this.toasts.on('shown.bs.toast', function() {
-      // do something...
-    });
-
-    this.toasts.on('hide.bs.toast', function() {
-      // do something...
-    });
-
-    this.toasts.on('hidden.bs.toast', function() {
-      // do something...
-    });
+    this.toasts.on('show.bs.toast', function() {});
+    this.toasts.on('shown.bs.toast', function() {});
+    this.toasts.on('hide.bs.toast', function() {});
+    this.toasts.on('hidden.bs.toast', function() {});
   }
 }
 
@@ -146,27 +142,47 @@ class DeleteItem {
 }
 
 class TypeaheadTags extends Toast {
-  constructor(inputTags, saveTagsButton) {
-    super(inputTags, saveTagsButton);
+  constructor(inputTags, saveTagsButton, tags) {
+    super(inputTags, saveTagsButton, tags);
 
     this.inputTags = inputTags;
     this.saveTagsButton = saveTagsButton;
+    this.tags = tags;
 
     this.init();
   }
 
-  static run(inputTags, saveTagsButton) {
-    new TypeaheadTags(inputTags, saveTagsButton);
+  static run(inputTags, saveTagsButton, tags) {
+    new TypeaheadTags(inputTags, saveTagsButton, tags);
   }
 
   init() {
-    this.inputTags.tokenfield();
+    this.initTags();
 
-    this.save();
-    this.ready();
+    if (this.saveTagsButton) {
+      this.saveTags();
+    }
   }
 
-  save() {
+  initTags() {
+    if (this.saveTagsButton) {
+      this.inputTags.tokenfield({ // this.inputTags.tokenfield('setTokens', this.tags);
+        tokens: this.tags
+      });
+    } else {
+      let prepareTags = this.tags.split(', ');
+
+      this.inputTags.tokenfield({
+        autocomplete: {
+          source: [...prepareTags],
+          delay: 100
+        },
+        showAutocompleteOnFocus: true
+      });
+    }
+  }
+
+  saveTags() {
     this.saveTagsButton.on('click', (event) => {
       event.preventDefault();
 
@@ -181,12 +197,6 @@ class TypeaheadTags extends Toast {
       chrome.storage.sync.set({settingsTags: value}, () => {
         this.showToastSuccess();
       });
-    });
-  }
-
-  ready() {
-    chrome.storage.sync.get(['settingsTags'], (result) => {
-      this.inputTags.tokenfield('setTokens', result.settingsTags);
     });
   }
 }
