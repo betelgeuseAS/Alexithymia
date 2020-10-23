@@ -1,11 +1,3 @@
-//Customize event listener
-const listen = (selector = 'body', event = '', listener = () => {}, useCapture = false) => {
-  document.querySelector(selector)
-    .addEventListener(event, listener, useCapture);
-};
-
-//Debounce
-//Make sure that the function returned is not an arrow function, as you will lose context.
 const debounce = (fn, time) => {
   let timeout;
 
@@ -16,14 +8,6 @@ const debounce = (fn, time) => {
   }
 };
 
-//Set browser language
-const browserLanguage = () => {
-  let userLang = navigator.language || navigator.userLanguage;
-
-  return userLang ? userLang.slice(0, 2) : 'en';
-};
-
-//Create element node
 function createElement(tag, props, ...children) {
   const element = document.createElement(tag);
 
@@ -39,4 +23,18 @@ function createElement(tag, props, ...children) {
   }
 
   return element;
+}
+
+function uuid() {
+  let uuid = "", i, random;
+
+  for (i = 0; i < 32; i++) {
+    random = Math.random() * 16 | 0;
+
+    if (i === 8 || i === 12 || i === 16 || i === 20) uuid += "-";
+
+    uuid += (i === 12 ? 4 : (i === 16 ? (random & 3 | 8) : random)).toString(16);
+  }
+
+  return uuid;
 }
