@@ -26,8 +26,8 @@ class Init {
 
   initAppWithData() {
     chrome.storage.sync.get(['settingsTags', 'records'], (result) => {
-      let dataTags = result.settingsTags,
-          dataRecords = result.records;
+      let dataTags = result.settingsTags || '',
+          dataRecords = result.records || [];
 
       DeleteItem.run(
         $('.list-group .list-group-item .delete-action'),
@@ -53,7 +53,8 @@ class Init {
       );
 
       SaveRecordModal.run(
-        $('#addItemModal')
+        $('#addItemModal'),
+        dataRecords
       );
     });
   }
@@ -259,16 +260,17 @@ class Search {
 }
 
 class SaveRecordModal extends Toast {
-  constructor(modalElement) {
-    super(modalElement);
+  constructor(modalElement, records) {
+    super(modalElement, records);
 
     this.modalElement = modalElement;
+    this.records = records;
 
     this.init();
   }
 
-  static run(modalElement) {
-    new SaveRecordModal(modalElement);
+  static run(modalElement, records) {
+    new SaveRecordModal(modalElement, records);
   }
 
   init() {
@@ -279,18 +281,37 @@ class SaveRecordModal extends Toast {
       let data = {};
 
       form.find('input, textarea').each(function() {
-        data[this.name] = $(this).val();
+        if (this.name) data[this.name] = $(this).val();
       });
 
       if (!data) {
         self.showToastError();
+
+        return;
       }
 
-      chrome.storage.sync.set({records: [data]}, function() {
+      data['id'] = self.uuid();
+      self.records.push(data);
+
+      chrome.storage.sync.set({records: self.records}, function() {
         self.showToastSuccess();
         self.modalElement.modal('hide');
       });
     });
+  }
+
+  uuid() {
+    let uuid = "", i, random;
+
+    for (i = 0; i < 32; i++) {
+      random = Math.random() * 16 | 0;
+
+      if (i === 8 || i === 12 || i === 16 || i === 20) uuid += "-";
+
+      uuid += (i === 12 ? 4 : (i === 16 ? (random & 3 | 8) : random)).toString(16);
+    }
+
+    return uuid;
   }
 }
 
