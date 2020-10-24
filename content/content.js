@@ -1,7 +1,7 @@
-// const listen = (selector = '', event = '', listener = () => {}, useCapture = false) => {
-//   document.querySelector(selector)
-//     .addEventListener(event, listener, useCapture);
-// };
+const listen = (selector = '', event = '', listener = () => {}, useCapture = false) => {
+  document.querySelector(selector)
+    .addEventListener(event, listener, useCapture);
+};
 
 // listen('body', 'mouseup', (e) => {
 //   // let selection = document.getSelection ? document.getSelection().toString() :  document.selection.createRange().toString() ;

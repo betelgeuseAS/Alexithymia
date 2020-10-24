@@ -6,6 +6,13 @@
 // Bootswatch https://bootswatch.com/sketchy/
 // jQuery https://api.jquery.com/
 
+// Chrome tab API https://developer.chrome.com/extensions/tabs
+// chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+//   chrome.tabs.executeScript(
+//     tabs[0].id,
+//     {code: 'document.body.style.backgroundColor = red;'});
+// });
+
 $(document).ready(() => {
   Init.run();
 });
@@ -29,9 +36,14 @@ class Init {
       let dataTags = result.settingsTags || '',
           dataRecords = result.records || [];
 
-      DeleteItem.run(
-        $('.list-group .list-group-item .delete-action'),
-        $('.list-group .list-group-item')
+      GenerateRecords.run(
+        dataRecords
+      );
+
+      Search.run(
+        $('.search-action #searchInput'),
+        $('.search-action #searchFilter'),
+        $('.list-group li.list-group-item')
       );
 
       TypeaheadTags.run(
@@ -44,12 +56,6 @@ class Init {
         $('#addItemModal #inputTags'),
         null,
         dataTags
-      );
-
-      Search.run(
-        $('.search-action #searchInput'),
-        $('.search-action #searchFilter'),
-        $('.list-group li.list-group-item')
       );
 
       SaveRecordModal.run(
@@ -110,35 +116,6 @@ class Toast {
     this.toasts.on('shown.bs.toast', function() {});
     this.toasts.on('hide.bs.toast', function() {});
     this.toasts.on('hidden.bs.toast', function() {});
-  }
-}
-
-class DeleteItem {
-  constructor(deleteButton, deleteElement) {
-    this.deleteButton = deleteButton;
-    this.deleteElement = deleteElement;
-
-    this.init(this);
-  }
-
-  static run(deleteButton, deleteElement) {
-    new DeleteItem(deleteButton, deleteElement);
-  }
-
-  init(self) {
-    self.deleteButton.on('click', function() {
-      const element = $(this).closest(self.deleteElement);
-
-      self.cuteHide(element);
-    });
-  }
-
-  cuteHide(element) {
-    element.animate({opacity: '0'}, 150, function(){
-      element.animate({height: '0px'}, 150, function(){
-        element.remove();
-      });
-    });
   }
 }
 
@@ -291,7 +268,7 @@ class SaveRecordModal extends Toast {
       }
 
       data['id'] = uuid();
-      self.records.push(data);
+      self.records.unshift(data);
 
       chrome.storage.sync.set({records: self.records}, function() {
         self.showToastSuccess();
@@ -301,28 +278,62 @@ class SaveRecordModal extends Toast {
   }
 }
 
-// Notes
-// let changeColor = document.getElementById('changeColor');
-// chrome.storage.sync.get('color', function(data) {
-//   changeColor.style.backgroundColor = data.color;
-//   changeColor.setAttribute('value', data.color);
-// });
-//
-// changeColor.onclick = function(element) {
-//   let color = element.target.value;
-//   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-//     chrome.tabs.executeScript(
-//       tabs[0].id,
-//       {code: 'document.body.style.backgroundColor = "' + color + '";'});
-//   });
-// };
+class GenerateRecords {
+  constructor(records) {
+    this.records = records;
 
-// function createTodoItem(title) {
-//   const checkbox = createElement('input', { type: 'checkbox', className: 'checkbox' });
-//   const label = createElement('label', { className: 'title' }, title);
-//   const editInput = createElement('input', { type: 'text', className: 'textfield' });
-//   const editButton = createElement('button', { className: 'edit' }, 'Edit');
-//   const deleteButton = createElement('button', { className: 'delete' }, 'Remove');
-//   const listItem = createElement('li', { className: 'todo-item' }, checkbox, label, editInput, editButton, deleteButton);
-//   return listItem;
-// }
+    this.init();
+  }
+
+  static run(records) {
+    new GenerateRecords(records);
+  }
+
+  init() {
+    let self = this;
+
+    this.records.forEach((record) => {
+      this.createRecord(record);
+    });
+
+    $('#content button.edit-action').on('click', function() {});
+
+    $('#content button.delete-action').on('click', function() {
+      const element = $(this).closest('li.list-group-item');
+
+      self.cuteHide(element);
+    });
+  }
+
+  createRecord(record) {
+    // let div = $("<div>", {id: "foo", "class": "a"});
+    // div.click(function() {});
+    // $("#box").append(div);
+
+    let li = `
+      <li class="list-group-item">
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="w-50 data">
+            <div class="data-title">${record.title}</div>
+            <div class="data-tags">[ <span class="text-muted">${record.tags}</span> ]</div>
+          </div>
+      
+          <div>
+            <button type="button" class="btn btn-outline-warning edit-action btn-sm">Edit</button>
+            <button type="button" class="btn btn-outline-danger delete-action btn-sm">Delete</button>
+          </div>
+        </div>
+      </li>
+    `;
+
+    $("#content ul.list-group").append(li);
+  }
+
+  cuteHide(element) {
+    element.animate({opacity: '0'}, 150, function(){
+      element.animate({height: '0px'}, 150, function(){
+        element.remove();
+      });
+    });
+  }
+}

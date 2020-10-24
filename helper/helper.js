@@ -24,6 +24,13 @@ function createElement(tag, props, ...children) {
 
   return element;
 }
+// const checkbox = createElement('input', { type: 'checkbox', className: 'checkbox' });
+// const label = createElement('label', { className: 'title' }, title);
+// const editInput = createElement('input', { type: 'text', className: 'textfield' });
+// const editButton = createElement('button', { className: 'edit' }, 'Edit');
+// const deleteButton = createElement('button', { className: 'delete' }, 'Remove');
+// const listItem = createElement('li', { className: 'todo-item' }, checkbox, label, editInput, editButton, deleteButton);
+// return listItem;
 
 function uuid() {
   let uuid = "", i, random;
