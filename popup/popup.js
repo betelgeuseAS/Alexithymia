@@ -32,6 +32,8 @@ class Init {
   }
 
   initAppWithData() {
+    // chrome.storage.sync.clear();
+
     chrome.storage.sync.get(['settingsTags', 'records'], (result) => {
       let dataTags = result.settingsTags || '',
           dataRecords = result.records || [];
@@ -220,9 +222,9 @@ class Search {
         });
 
         break;
-      case 'title':
+      case 'content':
         self.listItems.filter(function() {
-          $(this).toggle($(this).find('.data .data-title').text().toLowerCase().indexOf(value) > -1)
+          $(this).toggle($(this).find('.data .data-content').text().toLowerCase().indexOf(value) > -1)
         });
 
         break;
@@ -268,7 +270,7 @@ class SaveRecordModal extends Toast {
       }
 
       data['id'] = uuid();
-      self.records.unshift(data);
+      self.records.push(data);
 
       chrome.storage.sync.set({records: self.records}, function() {
         self.showToastSuccess();
@@ -278,8 +280,10 @@ class SaveRecordModal extends Toast {
   }
 }
 
-class GenerateRecords {
+class GenerateRecords extends Toast {
   constructor(records) {
+    super(records);
+
     this.records = records;
 
     this.init();
@@ -299,9 +303,18 @@ class GenerateRecords {
     $('#content button.edit-action').on('click', function() {});
 
     $('#content button.delete-action').on('click', function() {
-      const element = $(this).closest('li.list-group-item');
+      const element = $(this).closest('li.list-group-item'),
+            id = element.data('id');
 
-      self.cuteHide(element);
+      let records = $.grep(self.records, function(item){
+        return item.id !== id;
+      });
+
+      chrome.storage.sync.set({records: records}, function() {
+        self.records = records;
+        self.cuteHide(element);
+        // self.showToastSuccess();
+      });
     });
   }
 
@@ -311,10 +324,10 @@ class GenerateRecords {
     // $("#box").append(div);
 
     let li = `
-      <li class="list-group-item">
+      <li class="list-group-item" data-id="${record.id}">
         <div class="d-flex justify-content-between align-items-center">
           <div class="w-50 data">
-            <div class="data-title">${record.title}</div>
+            <div class="data-content">${record.content}</div>
             <div class="data-tags">[ <span class="text-muted">${record.tags}</span> ]</div>
           </div>
       
@@ -326,7 +339,7 @@ class GenerateRecords {
       </li>
     `;
 
-    $("#content ul.list-group").append(li);
+    $("#content ul.list-group").prepend(li);
   }
 
   cuteHide(element) {
