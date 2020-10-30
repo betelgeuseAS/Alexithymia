@@ -14,65 +14,159 @@
 // });
 
 $(document).ready(() => {
-  Init.run();
+  $(function() {
+    $('[data-toggle="tooltip"]').tooltip();
+  });
+
+  // chrome.storage.sync.clear();
+  chrome.storage.sync.get(['settingsTags', 'records'], (result) => {
+    let dataTags = result.settingsTags || '',
+        dataRecords = result.records || [];
+
+    TypeaheadTags.run(
+      $('.tab-pane #inputSettingsTags'),
+      $('.tab-pane .save-settings-tags'),
+      dataTags
+    );
+
+    TypeaheadTags.run(
+      $('#addItemModal #inputTags'),
+      null,
+      dataTags
+    );
+
+    SaveRecordModal.run(
+      $('#addItemModal'),
+      dataRecords
+    );
+
+
+
+
+
+    // Global variables
+    const searchInput = $('.search-action #searchInput'),
+          searchFilter = $('.search-action #searchFilter');
+    let listItems = $('.list-group li.list-group-item');
+
+    function createRecordHandler(record) {
+      // let div = $("<div>", {id: "foo", "class": "a"});
+      // div.click(function() {});
+      // $("#box").append(div);
+
+      let li = `
+      <li class="list-group-item" data-id="${record.id}">
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="w-50 data">
+            <div class="data-content">${record.content}</div>
+            <div class="data-tags">[ <span class="text-muted">${record.tags}</span> ]</div>
+          </div>
+      
+          <div>
+            <button type="button" class="btn btn-outline-warning edit-action btn-sm">Edit</button>
+            <button type="button" class="btn btn-outline-danger delete-action btn-sm">Delete</button>
+          </div>
+        </div>
+      </li>
+    `;
+
+      $("#content ul.list-group").prepend(li);
+    }
+
+    function hideElementHandler(element) {
+      element.animate({opacity: '0'}, 150, function(){
+        element.animate({height: '0px'}, 150, function(){
+          element.remove();
+        });
+      });
+    }
+
+    function filterHandler(value, filter) {
+      switch (filter) {
+        case 'all':
+          listItems.filter(function() {
+            $(this).toggle($(this).find('.data').text().toLowerCase().indexOf(value) > -1)
+          });
+
+          break;
+        case 'content':
+          listItems.filter(function() {
+            $(this).toggle($(this).find('.data .data-content').text().toLowerCase().indexOf(value) > -1)
+          });
+
+          break;
+        case 'tags':
+          listItems.filter(function() {
+            $(this).toggle($(this).find('.data .data-tags').text().toLowerCase().indexOf(value) > -1)
+          });
+
+          break;
+      }
+    }
+
+    function searchInputHandler() {
+      let value = $(this).val().toLowerCase(),
+        filter = searchFilter.val().toLowerCase();
+
+      filterHandler(value, filter);
+    }
+
+    function searchFilterHandler() {
+      let value = searchInput.val().toLowerCase(),
+        filter = $(this).val().toLowerCase();
+
+      filterHandler(value, filter);
+    }
+
+    function bindEvents(recordItem) {
+      const editButton = $(recordItem).find('button.edit-action');
+      const deleteButton = $(recordItem).find('button.delete-action');
+
+      editButton.on('click', editRecordItemHandler);
+      deleteButton.on('click', deleteRecordItemHandler);
+    }
+
+    function editRecordItemHandler() {
+
+    }
+
+    function deleteRecordItemHandler() {
+      const element = $(this).closest('li.list-group-item'),
+            id = element.data('id');
+
+      let records = $.grep(dataRecords, function(item){
+        return item.id !== id;
+      });
+
+      chrome.storage.sync.set({records: records}, function() {
+        dataRecords = records;
+        hideElementHandler(element);
+        // self.showToastSuccess();
+      });
+    }
+
+    function main() {
+      // Generate records
+      dataRecords.forEach((record) => {
+        createRecordHandler(record);
+      });
+      listItems = $('.list-group li.list-group-item');
+      listItems.each(function() { bindEvents(this); });
+
+      // Search
+      searchInput.on('keyup', searchInputHandler);
+      searchFilter.on('change', searchFilterHandler);
+    }
+
+    main();
+  });
 });
 
-class Init {
-  constructor() {
-    this.init();
-  }
 
-  static run() {
-    new Init();
-  }
 
-  init() {
-    this.initAppWithData();
-    this.initBootstrapComponents();
-  }
 
-  initAppWithData() {
-    // chrome.storage.sync.clear();
 
-    chrome.storage.sync.get(['settingsTags', 'records'], (result) => {
-      let dataTags = result.settingsTags || '',
-          dataRecords = result.records || [];
 
-      GenerateRecords.run(
-        dataRecords
-      );
-
-      Search.run(
-        $('.search-action #searchInput'),
-        $('.search-action #searchFilter'),
-        $('.list-group li.list-group-item')
-      );
-
-      TypeaheadTags.run(
-        $('.tab-pane #inputSettingsTags'),
-        $('.tab-pane .save-settings-tags'),
-        dataTags
-      );
-
-      TypeaheadTags.run(
-        $('#addItemModal #inputTags'),
-        null,
-        dataTags
-      );
-
-      SaveRecordModal.run(
-        $('#addItemModal'),
-        dataRecords
-      );
-    });
-  }
-
-  initBootstrapComponents() {
-    $(function() {
-      $('[data-toggle="tooltip"]').tooltip();
-    });
-  }
-}
 
 class Toast {
   constructor() {
@@ -181,63 +275,6 @@ class TypeaheadTags extends Toast {
   }
 }
 
-class Search {
-  constructor(searchInput, searchFilter, listItems) {
-    this.searchInput = searchInput;
-    this.searchFilter = searchFilter;
-    this.listItems = listItems;
-
-    this.init();
-  }
-
-  static run(searchInput, searchFilter, listItems) {
-    new Search(searchInput, searchFilter, listItems);
-  }
-
-  init() {
-    let self = this;
-
-    this.searchInput.on("keyup", function() {
-      let value = $(this).val().toLowerCase(),
-          filter = self.searchFilter.val().toLowerCase();
-
-      self.filter(value, filter);
-    });
-
-    this.searchFilter.on("change",function() {
-      let value = self.searchInput.val().toLowerCase(),
-          filter = $(this).val().toLowerCase();
-
-      self.filter(value, filter);
-    });
-  }
-
-  filter(value, filter) {
-    const self = this;
-
-    switch (filter) {
-      case 'all':
-        self.listItems.filter(function() {
-          $(this).toggle($(this).find('.data').text().toLowerCase().indexOf(value) > -1)
-        });
-
-        break;
-      case 'content':
-        self.listItems.filter(function() {
-          $(this).toggle($(this).find('.data .data-content').text().toLowerCase().indexOf(value) > -1)
-        });
-
-        break;
-      case 'tags':
-        self.listItems.filter(function() {
-          $(this).toggle($(this).find('.data .data-tags').text().toLowerCase().indexOf(value) > -1)
-        });
-
-        break;
-    }
-  }
-}
-
 class SaveRecordModal extends Toast {
   constructor(modalElement, records) {
     super(modalElement, records);
@@ -275,77 +312,6 @@ class SaveRecordModal extends Toast {
       chrome.storage.sync.set({records: self.records}, function() {
         self.showToastSuccess();
         self.modalElement.modal('hide');
-      });
-    });
-  }
-}
-
-class GenerateRecords extends Toast {
-  constructor(records) {
-    super(records);
-
-    this.records = records;
-
-    this.init();
-  }
-
-  static run(records) {
-    new GenerateRecords(records);
-  }
-
-  init() {
-    let self = this;
-
-    this.records.forEach((record) => {
-      this.createRecord(record);
-    });
-
-    $('#content button.edit-action').on('click', function() {});
-
-    $('#content button.delete-action').on('click', function() {
-      const element = $(this).closest('li.list-group-item'),
-            id = element.data('id');
-
-      let records = $.grep(self.records, function(item){
-        return item.id !== id;
-      });
-
-      chrome.storage.sync.set({records: records}, function() {
-        self.records = records;
-        self.cuteHide(element);
-        // self.showToastSuccess();
-      });
-    });
-  }
-
-  createRecord(record) {
-    // let div = $("<div>", {id: "foo", "class": "a"});
-    // div.click(function() {});
-    // $("#box").append(div);
-
-    let li = `
-      <li class="list-group-item" data-id="${record.id}">
-        <div class="d-flex justify-content-between align-items-center">
-          <div class="w-50 data">
-            <div class="data-content">${record.content}</div>
-            <div class="data-tags">[ <span class="text-muted">${record.tags}</span> ]</div>
-          </div>
-      
-          <div>
-            <button type="button" class="btn btn-outline-warning edit-action btn-sm">Edit</button>
-            <button type="button" class="btn btn-outline-danger delete-action btn-sm">Delete</button>
-          </div>
-        </div>
-      </li>
-    `;
-
-    $("#content ul.list-group").prepend(li);
-  }
-
-  cuteHide(element) {
-    element.animate({opacity: '0'}, 150, function(){
-      element.animate({height: '0px'}, 150, function(){
-        element.remove();
       });
     });
   }
