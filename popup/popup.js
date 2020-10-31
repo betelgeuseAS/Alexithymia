@@ -35,18 +35,14 @@ $(document).ready(() => {
       dataTags
     );
 
-    SaveRecordModal.run(
-      $('#addItemModal'),
-      dataRecords
-    );
-
 
 
 
 
     // Global variables
     const searchInput = $('.search-action #searchInput'),
-          searchFilter = $('.search-action #searchFilter');
+          searchFilter = $('.search-action #searchFilter'),
+          modalElement = $('#addItemModal');
     let listItems = $('.list-group li.list-group-item');
 
     function createRecordHandler(record) {
@@ -145,6 +141,30 @@ $(document).ready(() => {
       });
     }
 
+    function saveRecordHandler() {
+      const form = modalElement.find('form');
+      let record = {};
+
+      form.find('input, textarea').each(function() {
+        if (this.name) record[this.name] = $(this).val();
+      });
+
+      if (!record) {
+        // self.showToastError();
+
+        return;
+      }
+
+      record['id'] = uuid();
+      dataRecords.push(record);
+
+      chrome.storage.sync.set({records: dataRecords}, function() {
+        // self.showToastSuccess();
+        createRecordHandler(record);
+        modalElement.modal('hide');
+      });
+    }
+
     function main() {
       // Generate records
       dataRecords.forEach((record) => {
@@ -156,6 +176,9 @@ $(document).ready(() => {
       // Search
       searchInput.on('keyup', searchInputHandler);
       searchFilter.on('change', searchFilterHandler);
+
+      // Save record
+      modalElement.find('.save-action').on('click', saveRecordHandler)
     }
 
     main();
@@ -270,48 +293,6 @@ class TypeaheadTags extends Toast {
 
       chrome.storage.sync.set({settingsTags: value}, () => {
         this.showToastSuccess();
-      });
-    });
-  }
-}
-
-class SaveRecordModal extends Toast {
-  constructor(modalElement, records) {
-    super(modalElement, records);
-
-    this.modalElement = modalElement;
-    this.records = records;
-
-    this.init();
-  }
-
-  static run(modalElement, records) {
-    new SaveRecordModal(modalElement, records);
-  }
-
-  init() {
-    const form = this.modalElement.find('form'),
-          self = this;
-
-    this.modalElement.find('.save-action').on('click', function() {
-      let data = {};
-
-      form.find('input, textarea').each(function() {
-        if (this.name) data[this.name] = $(this).val();
-      });
-
-      if (!data) {
-        self.showToastError();
-
-        return;
-      }
-
-      data['id'] = uuid();
-      self.records.push(data);
-
-      chrome.storage.sync.set({records: self.records}, function() {
-        self.showToastSuccess();
-        self.modalElement.modal('hide');
       });
     });
   }
