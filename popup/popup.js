@@ -63,7 +63,10 @@ $(document).ready(() => {
       </li>
     `;
 
-      $("#content ul.list-group").prepend(li);
+      const list = $("#content ul.list-group");
+
+      list.prepend(li);
+      bindEventsHandler(list.find(`li[data-id=${record.id}]`));
     }
 
     function hideElementHandler(element) {
@@ -111,7 +114,7 @@ $(document).ready(() => {
       filterHandler(value, filter);
     }
 
-    function bindEvents(recordItem) {
+    function bindEventsHandler(recordItem) {
       const editButton = $(recordItem).find('button.edit-action');
       const deleteButton = $(recordItem).find('button.delete-action');
 
@@ -170,7 +173,7 @@ $(document).ready(() => {
         createRecordHandler(record);
       });
       listItems = $('.list-group li.list-group-item');
-      listItems.each(function() { bindEvents(this); });
+      listItems.each(function() { bindEventsHandler(this); });
 
       // Search
       searchInput.on('keyup', searchInputHandler);
