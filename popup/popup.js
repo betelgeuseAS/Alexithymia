@@ -23,6 +23,7 @@ $(document).ready(() => {
     let dataTags = result.settingsTags || '',
         dataRecords = result.records || [];
 
+    // Init classes
     TypeaheadTags.run(
       $('.tab-pane #inputSettingsTags'),
       $('.tab-pane .save-settings-tags'),
@@ -34,10 +35,6 @@ $(document).ready(() => {
       null,
       dataTags
     );
-
-
-
-
 
     // Global variables
     const searchInput = $('.search-action #searchInput'),
@@ -128,7 +125,8 @@ $(document).ready(() => {
 
     function deleteRecordItemHandler() {
       const element = $(this).closest('li.list-group-item'),
-            id = element.data('id');
+            id = element.data('id'),
+            toast = new Toast();
 
       let records = $.grep(dataRecords, function(item){
         return item.id !== id;
@@ -137,12 +135,13 @@ $(document).ready(() => {
       chrome.storage.sync.set({records: records}, function() {
         dataRecords = records;
         hideElementHandler(element);
-        // self.showToastSuccess();
+        toast.showToastSuccess();
       });
     }
 
     function saveRecordHandler() {
-      const form = modalElement.find('form');
+      const form = modalElement.find('form'),
+            toast = new Toast();
       let record = {};
 
       form.find('input, textarea').each(function() {
@@ -150,7 +149,7 @@ $(document).ready(() => {
       });
 
       if (!record) {
-        // self.showToastError();
+        toast.showToastError();
 
         return;
       }
@@ -159,7 +158,7 @@ $(document).ready(() => {
       dataRecords.push(record);
 
       chrome.storage.sync.set({records: dataRecords}, function() {
-        // self.showToastSuccess();
+        toast.showToastSuccess();
         createRecordHandler(record);
         modalElement.modal('hide');
       });
@@ -184,12 +183,6 @@ $(document).ready(() => {
     main();
   });
 });
-
-
-
-
-
-
 
 class Toast {
   constructor() {
