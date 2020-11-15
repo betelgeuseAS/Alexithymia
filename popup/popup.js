@@ -39,7 +39,7 @@ $(document).ready(() => {
     // Global variables
     const searchInput = $('.search-action #searchInput'),
           searchFilter = $('.search-action #searchFilter'),
-          modalElement = $('#addItemModal');
+          createModalElement = $('#addItemModal');
     let listItems = $('.list-group li.list-group-item');
 
     function createRecordHandler(record) {
@@ -143,7 +143,7 @@ $(document).ready(() => {
     }
 
     function saveRecordHandler() {
-      const form = modalElement.find('form'),
+      const form = createModalElement.find('form'),
             toast = new Toast();
       let record = {};
 
@@ -163,7 +163,7 @@ $(document).ready(() => {
       chrome.storage.sync.set({records: dataRecords}, function() {
         toast.showToastSuccess();
         createRecordHandler(record);
-        modalElement.modal('hide');
+        createModalElement.modal('hide');
       });
     }
 
@@ -180,7 +180,11 @@ $(document).ready(() => {
       searchFilter.on('change', searchFilterHandler);
 
       // Save record
-      modalElement.find('.save-action').on('click', saveRecordHandler)
+      createModalElement.find('.save-action').on('click', saveRecordHandler);
+      createModalElement.on('hide.bs.modal', function() {
+        $(this).find('form').trigger('reset'); // $(this).find('form')[0].reset();
+        $(this).find('#inputTags').tokenfield('setTokens', []);
+      });
     }
 
     main();
