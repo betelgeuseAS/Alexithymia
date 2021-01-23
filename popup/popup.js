@@ -123,7 +123,16 @@ $(document).ready(() => {
     }
 
     function editRecordItemHandler() {
+      const element = $(this).closest('li.list-group-item'),
+            id = element.data('id'),
+            form = createModalElement.find('form'),
+            toast = new Toast(),
+            item = dataRecords.find(item => item.id === id);
 
+      form.find('textarea').val(item.content);
+      form.find('input').tokenfield('setTokens', item.tags);
+
+      createModalElement.modal('show');
     }
 
     function deleteRecordItemHandler() {
